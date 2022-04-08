@@ -1,21 +1,77 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Header from "./components/Header";
+import AddItem from "./components/AddItem";
+import Content from "./components/Content";
+import Footer from "./components/Footer";
+import { useState } from "react";
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
+function App() {
+	const [items, setItems] = useState([
+		{
+			id: 1,
+			checked: false,
+			item: "One half pound bag of Cocoa Covered Almonds Unsalted",
+		},
+		{
+			id: 2,
+			checked: false,
+			item: "Item 2",
+		},
+		{
+			id: 3,
+			checked: false,
+			item: "Item 3",
+		},
+	]);
+
+	// STATE FOR ADD ITEM
+	const [newItem, setNewItem] = useState("");
+
+	const addItem = (item) => {
+		const id = items.length ? items[items.length - 1].id + 1 : 1;
+		const myNewItem = { id, checked: false, item };
+		const listItems = [...items, myNewItem];
+		setItems(listItems);
+	};
+
+	const handleCheck = (id) => {
+		const listItems = items.map((item) =>
+			item.id === id ? { ...item, checked: !item.checked } : item
+		);
+		setItems(listItems);
+		localStorage.setItem("shoppinglist", JSON.stringify(listItems));
+	};
+
+	const handleDelete = (id) => {
+		const listItems = items.filter((item) => item.id !== id);
+		setItems(listItems);
+		localStorage.setItem("shoppinglist", JSON.stringify(listItems));
+	};
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		if (!newItem.length) return;
+		//Add new Item
+		addItem(newItem);
+		setNewItem("");
+	};
+
+	return (
+		<div className="App">
+			<Header title="Groceries List" />
+			<AddItem
+				newItem={newItem}
+				setNewItem={setNewItem}
+				handleSubmit={handleSubmit}
+			/>
+			<Content
+				items={items}
+				handleCheck={handleCheck}
+				handleDelete={handleDelete}
+			/>
+			<Footer length={items.length} />
+		</div>
+	);
 }
 
 export default App;
