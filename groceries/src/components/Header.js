@@ -1,12 +1,15 @@
 import React from "react";
 
 const Header = ({ title }) => {
-	return <header>{title}</header>;
+	return (
+		<header>
+			<h1>{title}</h1>
+		</header>
+	);
 };
 
 Header.defaultProps = {
-  title: "Lista cumparaturi"
-}
-
+	title: "Groceries Listssss",
+};
 
 export default Header;
