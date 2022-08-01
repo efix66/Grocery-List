@@ -19,6 +19,12 @@
       "id": 4,
       "checked": false,
       "item": "Cookies"
+    },
+    {
+      "id": 5
+    },
+    {
+      "id": 6
     }
   ]
 }
